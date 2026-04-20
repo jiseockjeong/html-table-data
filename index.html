@@ -3,278 +3,670 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="ico_fav.ico">
-  <title>HTML TABLE 데이터 변환기</title>
+
+  <!-- [수정필수] 사이트 제목 -->
+  <title>HTML TABLE 데이터 변환기 | 기존 table 스타일 유지 무료 도구</title>
+
+  <!-- [수정필수] 사이트 설명 -->
+  <meta
+    name="description"
+    content="엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 도구입니다. rowspan, colspan 감지와 구조 반영까지 지원합니다."
+  />
+
+  <!-- [선택수정] 검색 키워드 -->
+  <meta
+    name="keywords"
+    content="엑셀 html 변환, html table 변환기, table 태그 생성, rowspan colspan 변환, 엑셀 표 html, 기존 테이블 스타일 유지, html 테이블 생성기"
+  />
+
+  <meta name="robots" content="index, follow" />
+
+  <!-- [수정필수] 작성자명 -->
+  <meta name="author" content="meow" />
+
+  <!-- [수정필수] 실제 배포 주소 -->
+  <link rel="canonical" href="https://html-table-data.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="HTML TABLE 데이터 변환기 | 기존 table 스타일 유지 무료 도구" />
+  <meta
+    property="og:description"
+    content="엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 도구입니다."
+  />
+  <!-- [수정필수] 실제 배포 주소 -->
+  <meta property="og:url" content="https://html-table-data.vercel.app/" />
+  <!-- [수정필수] 공유 이미지 경로 -->
+  <meta property="og:image" content="https://html-table-data.vercel.app/ico_fav.ico" />
+  <meta property="og:locale" content="ko_KR" />
+  <!-- [수정필수] 사이트명 -->
+  <meta property="og:site_name" content="HTML TABLE 데이터 변환기" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="HTML TABLE 데이터 변환기 | 기존 table 스타일 유지 무료 도구" />
+  <meta
+    name="twitter:description"
+    content="엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 도구입니다."
+  />
+  <!-- [수정필수] 공유 이미지 경로 -->
+  <meta name="twitter:image" content="https://html-table-data.vercel.app/ico_fav.ico" />
+
+  <!-- [선택수정] Search Console 인증 후 값 넣기 -->
+  <!-- <meta name="google-site-verification" content="여기에_인증코드" /> -->
+
+  <!-- [수정필수] 파비콘 경로 -->
+  <link rel="icon" href="./ico_fav.ico" type="image/png" />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "HTML TABLE 데이터 변환기",
+    "url": "https://your-site.vercel.app/",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 웹 도구",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "KRW"
+    }
+  }
+  </script>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
+
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, "Malgun Gothic", "맑은 고딕", sans-serif;
       background: #f6f7fb;
       color: #222;
     }
-    .wrap {
-      max-width: 1600px;
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .skip-link:focus {
+      position: fixed;
+      left: 16px;
+      top: 16px;
+      width: auto;
+      height: auto;
+      padding: 10px 14px;
+      background: #111;
+      color: #fff;
+      border-radius: 8px;
+      z-index: 9999;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 24px;
+      padding: 0 20px;
     }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
+
+    .site-header {
+      background: linear-gradient(135deg, #eef4ff 0%, #f8fbff 100%);
+      border-bottom: 1px solid #dde3ea;
     }
-    .desc {
-      margin: 0 0 20px;
-      color: #555;
-      line-height: 1.6;
+
+    .site-header .container {
+      padding-top: 36px;
+      padding-bottom: 36px;
     }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
+
+    .site-title {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.25;
     }
-    .card {
-      background: #fff;
-      border: 1px solid #dde3ea;
-      border-radius: 14px;
-      padding: 16px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+
+    .site-desc {
+      margin: 0;
+      max-width: 900px;
+      color: #4b5563;
+      line-height: 1.75;
+      font-size: 16px;
     }
-    .card h2 {
-      margin: 0 0 12px;
-      font-size: 18px;
-    }
-    textarea {
-      width: 100%;
-      min-height: 340px;
-      resize: vertical;
-      border: 1px solid #cfd6df;
-      border-radius: 10px;
-      padding: 12px;
-      font-family: Consolas, monospace;
-      font-size: 13px;
-      line-height: 1.5;
-      background: #fcfcfe;
-    }
-    .actions {
+
+    .hero-badges {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin: 16px 0;
+      margin-top: 16px;
     }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid #d7e2f0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #2457c5;
+    }
+
+    .layout-section {
+      margin: 28px 0;
+    }
+
+    .tool-panel,
+    .content-card {
+      background: #fff;
+      border: 1px solid #dde3ea;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .tool-panel {
+      padding: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel-title {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .panel-desc {
+      margin: 0 0 14px;
+      color: #5a6472;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .field-block {
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .field-help {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #667085;
+      line-height: 1.65;
+    }
+
+    textarea,
+    select,
+    input[type="file"] {
+      width: 100%;
+      border: 1px solid #cfd6df;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      background: #fcfcfe;
+    }
+
+    textarea {
+      min-height: 320px;
+      resize: vertical;
+      font-family: Consolas, monospace;
+      line-height: 1.55;
+    }
+
+    .inline-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .radio-group label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
     button {
       border: 0;
-      border-radius: 10px;
-      padding: 10px 16px;
+      border-radius: 12px;
+      padding: 11px 16px;
       cursor: pointer;
       font-size: 14px;
       font-weight: 700;
       background: #1f6feb;
       color: #fff;
     }
-    button.secondary { background: #5c6672; }
-    button.light {
+
+    button:hover {
+      opacity: 0.96;
+    }
+
+    .btn-secondary {
+      background: #5c6672;
+    }
+
+    .btn-light {
       background: #eef3f8;
       color: #1f2937;
       border: 1px solid #cfd6df;
     }
-    .status {
-      background: #fff;
-      border: 1px solid #dde3ea;
-      border-radius: 14px;
+
+    .hidden {
+      display: none;
+    }
+
+    .status-box {
+      margin-top: 18px;
       padding: 16px;
-      margin-bottom: 16px;
-      white-space: pre-wrap;
-      line-height: 1.7;
+      border-radius: 14px;
+      border: 1px solid #dde3ea;
+      background: #fff;
       font-size: 14px;
+      line-height: 1.7;
+      white-space: pre-wrap;
     }
-    .status .ok { color: #0f7b0f; font-weight: 700; }
-    .status .warn { color: #b26a00; font-weight: 700; }
-    .status .error { color: #c62828; font-weight: 700; }
-    .preview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-    .preview-box {
-      background: #fff;
-      border: 1px solid #dde3ea;
-      border-radius: 14px;
-      padding: 16px;
-      overflow: auto;
-    }
-    .preview-box h3 {
-      margin: 0 0 12px;
-      font-size: 16px;
-    }
-    .preview-stage {
-      overflow: auto;
-      border: 1px dashed #cfd6df;
-      padding: 12px;
-      border-radius: 10px;
-      background: #fafbfd;
-      min-height: 180px;
-      max-height: 300px;
-      overflow-y: auto;
-    }
-    .output-card {
-      background: #fff;
-      border: 1px solid #dde3ea;
-      border-radius: 14px;
-      padding: 16px;
-    }
-    .output-card h2 {
-      margin: 0 0 12px;
-      font-size: 18px;
-    }
-    .help {
-      font-size: 13px;
-      color: #666;
-      line-height: 1.6;
-      margin-top: 8px;
-    }
-    .pill {
-      display: inline-block;
-      padding: 3px 8px;
-      font-size: 12px;
-      border-radius: 999px;
-      margin-right: 6px;
+
+    .status-box .ok {
+      color: #0f7b0f;
       font-weight: 700;
     }
-    .pill-blue { background: #e8f1ff; color: #1f6feb; }
-    .pill-yellow { background: #fff5dd; color: #9a6700; }
-    .inline-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-bottom: 12px;
+
+    .status-box .warn {
+      color: #b26a00;
+      font-weight: 700;
     }
-    select, input[type="file"] {
-      border: 1px solid #cfd6df;
-      border-radius: 10px;
-      padding: 8px 10px;
-      font-size: 14px;
+
+    .status-box .error {
+      color: #c62828;
+      font-weight: 700;
+    }
+
+    .preview-card,
+    .output-card {
+      padding: 18px;
+    }
+
+    .preview-head {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .preview-stage {
+      min-height: 220px;
+      overflow: auto;
+      border: 1px dashed #cfd6df;
+      border-radius: 12px;
+      padding: 12px;
+      background: #fafbfd;
+    }
+
+    .output-textarea {
+      min-height: 420px;
+    }
+
+    .text-section {
+      padding: 22px;
+    }
+
+    .text-section h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      line-height: 1.35;
+    }
+
+    .text-section h3 {
+      margin: 20px 0 10px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .text-section p,
+    .text-section li {
+      color: #374151;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .text-section ul,
+    .text-section ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .faq-item + .faq-item {
+      margin-top: 14px;
+    }
+
+    .faq-item h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+    }
+
+    .site-footer {
+      margin-top: 36px;
+      border-top: 1px solid #dde3ea;
       background: #fff;
     }
-    .hidden { display: none; }
-    @media (max-width: 1200px) {
-      .preview-grid { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: 1fr; }
+
+    .site-footer .container {
+      padding-top: 22px;
+      padding-bottom: 32px;
+    }
+
+    .footer-text {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: #667085;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1100px) {
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .site-title {
+        font-size: 28px;
+      }
     }
   </style>
-</head>
-<body>
-  <div class="wrap">
-    <h1>HTML TABLE 데이터 변환기</h1>
-    <div style="margin-top: 20px; padding: 16px; border: 1px solid #dde3ea; border-radius: 12px; background: #fff; font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
 
-      <h3 style="margin: 0 0 10px; font-size: 16px;">📌 사용 안내</h3>
-      <ul style="margin: 0 0 16px 18px; padding: 0;">
-        <li>기존 테이블 HTML을 먼저 입력해주세요.</li>
-        <li>데이터는 <strong>HTML 테이블 붙여넣기</strong> 또는 <strong>엑셀 업로드</strong> 중 하나로 입력 가능합니다.</li>
-        <li>데이터 테이블의 <strong>텍스트와 병합 구조(rowspan, colspan)</strong>만 반영됩니다.</li>
-        <li>기존 테이블의 스타일, 정렬, 내부 태그(p, span 등)는 유지됩니다.</li>
-      </ul>
-    
-      <h3 style="margin: 0 0 10px; font-size: 16px;">⚠️ 주의사항</h3>
-      <ul style="margin: 0 0 16px 18px; padding: 0;">
-        <li>기존 테이블과 데이터 테이블의 열 개수가 크게 다르면 결과가 깨질 수 있습니다.</li>
-        <li>엑셀 서식(색상, 폰트 등)은 반영되지 않습니다.</li>
-        <li>복잡한 병합 구조는 일부 수동 수정이 필요할 수 있습니다.</li>
-      </ul>
-    
-      <h3 style="margin: 0 0 10px; font-size: 16px;">❗ 오류 발생 시</h3>
-      <ul style="margin: 0 0 16px 18px; padding: 0;">
-        <li>테이블 태그(<code>&lt;table&gt;</code>)가 정상적으로 포함되어 있는지 확인해주세요.</li>
-        <li>데이터 테이블이 비어있지 않은지 확인해주세요.</li>
-        <li>엑셀 업로드 시 파일 형식(.xlsx, .xls, .csv)을 확인해주세요.</li>
-      </ul>
-    
-      <h3 style="margin: 0 0 10px; font-size: 16px;">📧 문의</h3>
-      <p style="margin: 0;">
-        사용 중 문제가 발생하거나 개선 요청이 있으시면 아래 이메일로 문의해주세요.<br>
-        <p id="emailBox"></p>
+  <header class="site-header">
+    <div class="container">
+      <!-- [선택수정] 사이트 메인 제목 -->
+      <h1 class="site-title">HTML TABLE 데이터 변환기</h1>
 
-<script>
-  const user = "somaeburi";
-  const domain = "gmail.com";
-  const email = user + "@" + domain;
-
-  document.getElementById("emailBox").innerHTML =
-    `<a href="mailto:${email}">${email}</a>`;
-</script>
+      <!-- [선택수정] 사이트 소개 문구 -->
+      <p class="site-desc">
+        엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 웹 도구입니다.
+        데이터 테이블의 텍스트와 병합 구조만 읽고, 기존 테이블의 정렬, 스타일, 내부 p/span 구조는 최대한 유지합니다.
       </p>
-    
-    </div>
 
-    <div class="grid">
-      <div class="card">
-        <h2>1) 기존 테이블 HTML</h2>
-        <textarea id="sourceHtml" placeholder="기존 테이블 HTML을 넣어주세요."></textarea>
-        <div class="help">
-          기존 테이블의 <strong>style / class / valign / p / span / colgroup</strong> 등을 최대한 유지합니다.
-        </div>
+      <div class="hero-badges" aria-label="주요 기능">
+        <span class="badge">기존 table 스타일 유지</span>
+        <span class="badge">HTML 붙여넣기 지원</span>
+        <span class="badge">엑셀 업로드 지원</span>
+        <span class="badge">rowspan / colspan 반영</span>
       </div>
+    </div>
+  </header>
 
-      <div class="card">
-        <h2>2) 데이터 입력</h2>
-        <div class="inline-row">
-          <label><input type="radio" name="inputMode" value="html" checked> HTML 붙여넣기</label>
-          <label><input type="radio" name="inputMode" value="excel"> 엑셀 업로드</label>
-        </div>
+  <main id="main-content">
+    <section class="layout-section" aria-labelledby="tool-title">
+      <div class="container">
+        <div class="tool-panel">
+          <h2 id="tool-title" class="panel-title">테이블 변환 도구</h2>
+          <p class="panel-desc">
+            기존 테이블 HTML을 입력한 뒤, 데이터 테이블 HTML을 붙여넣거나 엑셀 파일을 업로드해 결과 HTML을 생성하세요.
+          </p>
 
-        <div id="htmlInputSection">
-          <textarea id="dataHtml" placeholder="새 데이터 테이블 HTML을 넣어주세요."></textarea>
-          <div class="help">
-            데이터 테이블에서는 <strong>구조(tr/td/th, rowspan, colspan)</strong>와 <strong>텍스트만</strong> 사용합니다.
+          <div class="grid-2">
+            <div>
+              <label class="field-block" for="sourceHtml">
+                <span class="field-label">기존 테이블 HTML</span>
+                <textarea id="sourceHtml" aria-describedby="sourceHtmlHelp" placeholder="기존 테이블 HTML을 넣어주세요."></textarea>
+                <div id="sourceHtmlHelp" class="field-help">
+                  기존 테이블의 style, class, valign, p, span, colgroup 등을 최대한 유지합니다.
+                </div>
+              </label>
+            </div>
+
+            <div>
+              <div class="field-block">
+                <span class="field-label">데이터 입력 방식</span>
+                <div class="radio-group" role="radiogroup" aria-label="데이터 입력 방식 선택">
+                  <label><input type="radio" name="inputMode" value="html" checked> HTML 붙여넣기</label>
+                  <label><input type="radio" name="inputMode" value="excel"> 엑셀 업로드</label>
+                </div>
+              </div>
+
+              <div id="htmlInputSection">
+                <label class="field-block" for="dataHtml">
+                  <span class="field-label">데이터 테이블 HTML</span>
+                  <textarea id="dataHtml" aria-describedby="dataHtmlHelp" placeholder="새 데이터 테이블 HTML을 넣어주세요."></textarea>
+                  <div id="dataHtmlHelp" class="field-help">
+                    데이터 테이블에서는 구조(tr, td, th, rowspan, colspan)와 텍스트만 사용합니다.
+                  </div>
+                </label>
+              </div>
+
+              <div id="excelInputSection" class="hidden" aria-live="polite">
+                <div class="inline-row">
+                  <label for="excelFile" class="field-label" style="margin-bottom:0;">엑셀 파일 업로드</label>
+                </div>
+
+                <div class="inline-row">
+                  <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" aria-describedby="excelHelp">
+                  <select id="sheetSelect" class="hidden" aria-label="시트 선택"></select>
+                  <button type="button" id="convertExcelBtn" class="btn-secondary">엑셀을 데이터 테이블로 변환</button>
+                </div>
+
+                <div id="excelHelp" class="field-help">
+                  첫 번째 행은 헤더로 처리합니다. 병합 셀이 있으면 가능한 범위에서 rowspan, colspan을 반영합니다.
+                </div>
+
+                <label class="field-block" for="excelPreviewHtml">
+                  <span class="field-label">변환된 데이터 테이블 HTML</span>
+                  <textarea id="excelPreviewHtml" placeholder="엑셀 업로드 후 변환된 데이터 테이블 HTML이 여기에 표시됩니다." style="min-height:220px;"></textarea>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="button-row">
+            <button id="runBtn" type="button">결과 생성</button>
+            <button id="sampleBtn" type="button" class="btn-secondary">샘플 넣기</button>
+            <button id="copyBtn" type="button" class="btn-light">결과 HTML 복사</button>
+            <button id="clearBtn" type="button" class="btn-light">전체 비우기</button>
+          </div>
+
+          <div id="status" class="status-box" aria-live="polite">
+            분석 결과가 여기에 표시됩니다.
           </div>
         </div>
+      </div>
+    </section>
 
-        <div id="excelInputSection" class="hidden">
-          <div class="inline-row">
-            <input type="file" id="excelFile" accept=".xlsx,.xls,.csv" />
-            <select id="sheetSelect" class="hidden"></select>
-            <button id="convertExcelBtn" type="button" class="secondary">엑셀을 데이터 테이블로 변환</button>
+    <section class="layout-section" aria-labelledby="preview-title">
+      <div class="container">
+        <h2 id="preview-title" class="panel-title" style="margin-bottom:14px;">미리보기</h2>
+
+        <div class="grid-2">
+          <div class="content-card preview-card">
+            <h3 class="preview-head">기존 테이블 미리보기</h3>
+            <div id="sourcePreview" class="preview-stage" aria-label="기존 테이블 미리보기 영역"></div>
           </div>
-          <div class="help">
-            첫 번째 행은 헤더로 처리합니다. 병합 셀이 있으면 가능한 범위에서 <code>rowspan</code>, <code>colspan</code>을 반영합니다.
+
+          <div class="content-card preview-card">
+            <h3 class="preview-head">데이터 테이블 미리보기</h3>
+            <div id="dataPreview" class="preview-stage" aria-label="데이터 테이블 미리보기 영역"></div>
           </div>
-          <textarea id="excelPreviewHtml" placeholder="엑셀 업로드 후 변환된 데이터 테이블 HTML이 여기에 표시됩니다." style="min-height: 220px;"></textarea>
+
+          <div class="content-card preview-card">
+            <h3 class="preview-head">결과 테이블 미리보기</h3>
+            <div id="resultPreview" class="preview-stage" aria-label="결과 테이블 미리보기 영역"></div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="actions">
-      <button id="runBtn">결과 생성</button>
-      <button id="sampleBtn" class="secondary">샘플 넣기</button>
-      <button id="copyBtn" class="light">결과 HTML 복사</button>
-      <button id="clearBtn" class="light">전체 비우기</button>
-    </div>
-
-    <div id="status" class="status">분석 결과가 여기에 표시됩니다.</div>
-
-    <div class="preview-grid">
-      <div class="preview-box">
-        <h3>기존 테이블 미리보기</h3>
-        <div id="sourcePreview" class="preview-stage"></div>
+    <section class="layout-section" aria-labelledby="result-title">
+      <div class="container">
+        <div class="content-card output-card">
+          <h2 id="result-title" class="panel-title">결과 HTML</h2>
+          <p class="panel-desc">
+            생성된 HTML을 복사해서 기존 페이지에 적용하세요. 적용 전 결과 미리보기를 꼭 확인하세요.
+          </p>
+          <label for="resultHtml" class="field-label">생성 결과</label>
+          <textarea id="resultHtml" class="output-textarea" placeholder="결과 HTML이 여기에 생성됩니다."></textarea>
+        </div>
       </div>
-      <div class="preview-box">
-        <h3>데이터 테이블 미리보기</h3>
-        <div id="dataPreview" class="preview-stage"></div>
-      </div>
-      <div class="preview-box">
-        <h3>결과 테이블 미리보기</h3>
-        <div id="resultPreview" class="preview-stage"></div>
-      </div>
-    </div>
+    </section>
 
-    <div class="output-card">
-      <h2>결과 HTML</h2>
-      <textarea id="resultHtml" placeholder="결과 HTML이 여기에 생성됩니다." style="min-height: 420px;"></textarea>
+    <section class="layout-section" aria-labelledby="guide-title">
+      <div class="container">
+        <div class="content-card text-section">
+          <h2 id="guide-title">사용 방법</h2>
+          <ol>
+            <li>기존 홈페이지 또는 문서에서 사용 중인 테이블 HTML을 입력합니다.</li>
+            <li>데이터 입력 방식을 선택합니다. HTML 테이블 붙여넣기 또는 엑셀 업로드 둘 다 가능합니다.</li>
+            <li>결과 생성을 눌러 미리보기를 확인합니다.</li>
+            <li>생성된 HTML을 복사한 뒤 실제 페이지에 반영합니다.</li>
+          </ol>
+
+          <h3>이 도구가 적합한 경우</h3>
+          <p>
+            공공기관, 재단, 협회, 박물관, 회사 소개 페이지처럼 정해진 표 서식을 유지해야 하는 경우에 특히 유용합니다.
+            기존 table 스타일은 살리고, 데이터만 바꾸거나 병합 구조까지 반영해야 할 때 빠르게 사용할 수 있습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout-section" aria-labelledby="feature-title">
+      <div class="container">
+        <div class="content-card text-section">
+          <h2 id="feature-title">주요 기능</h2>
+          <ul>
+            <li>엑셀 표를 HTML table 태그로 변환</li>
+            <li>기존 table 스타일 유지</li>
+            <li>데이터 테이블의 텍스트만 추출하여 반영</li>
+            <li>rowspan, colspan 구조 감지 및 반영</li>
+            <li>행 수 증가 및 열 구조 차이 확인</li>
+            <li>기존 p, span 래퍼 구조 최대한 유지</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout-section" aria-labelledby="seo-content-title">
+      <div class="container">
+        <div class="content-card text-section">
+          <h2 id="seo-content-title">엑셀 표를 HTML 테이블로 변환해야 할 때</h2>
+          <p>
+            이 도구는 엑셀 데이터를 HTML table 태그로 변환하고, 기존 홈페이지에서 사용 중인 table 스타일을 유지한 채 데이터를 적용할 수 있도록 도와줍니다.
+            단순히 엑셀을 HTML로 변환하는 것뿐 아니라, 기존 표의 스타일을 살리면서 새 데이터를 반영해야 하는 경우에 맞춰 설계되었습니다.
+          </p>
+          <p>
+            특히 기존 table 태그, tr, td 구조를 직접 수정하기 어려운 사용자에게 적합합니다.
+            데이터 테이블의 style이나 내부 span, p 태그는 무시하고 텍스트와 병합 구조만 읽어오기 때문에 결과를 더 안정적으로 만들 수 있습니다.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout-section" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="content-card text-section">
+          <h2 id="faq-title">자주 묻는 질문</h2>
+
+          <div class="faq-item">
+            <h3>엑셀 파일도 바로 변환할 수 있나요?</h3>
+            <p>네. xlsx, xls, csv 파일을 업로드해 데이터 테이블 HTML로 변환한 뒤 결과를 생성할 수 있습니다.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3>기존 table 안의 p, span 태그도 유지되나요?</h3>
+            <p>네. 데이터 테이블에서는 텍스트만 읽고, 기존 테이블의 래퍼 구조는 최대한 유지하는 방식입니다.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3>rowspan, colspan이 달라도 반영되나요?</h3>
+            <p>데이터 테이블의 병합 구조를 읽어서 결과 테이블 구조에 반영할 수 있습니다. 다만 매우 복잡한 구조는 결과 확인이 필요합니다.</p>
+          </div>
+
+          <div class="faq-item">
+            <h3>엑셀 서식까지 그대로 복사되나요?</h3>
+            <p>아니요. 엑셀의 색상, 폰트, 테두리 같은 서식은 그대로 복사하지 않고 텍스트와 병합 구조 위주로 반영합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout-section" aria-labelledby="notice-title">
+      <div class="container">
+        <div class="content-card text-section">
+          <h2 id="notice-title">사용 안내 및 문의</h2>
+
+          <h3>사용 안내</h3>
+          <ul>
+            <li>기존 테이블 HTML을 먼저 입력해주세요.</li>
+            <li>데이터는 HTML 테이블 붙여넣기 또는 엑셀 업로드 중 하나로 입력할 수 있습니다.</li>
+            <li>데이터 테이블의 텍스트와 병합 구조만 반영됩니다.</li>
+            <li>기존 테이블의 스타일, 정렬, 내부 태그는 최대한 유지됩니다.</li>
+          </ul>
+
+          <h3>주의사항</h3>
+          <ul>
+            <li>기존 테이블과 데이터 테이블의 열 구조가 크게 다르면 결과가 깨질 수 있습니다.</li>
+            <li>복잡한 병합 구조는 일부 수동 수정이 필요할 수 있습니다.</li>
+            <li>최종 적용 전 결과 미리보기를 꼭 확인해주세요.</li>
+          </ul>
+
+          <h3>오류 발생 시 확인할 점</h3>
+          <ul>
+            <li>table 태그가 정상적으로 포함되어 있는지 확인해주세요.</li>
+            <li>데이터 테이블 또는 엑셀 파일이 비어있지 않은지 확인해주세요.</li>
+            <li>엑셀 업로드 시 파일 형식이 xlsx, xls, csv인지 확인해주세요.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <!-- [수정필수] 이름 또는 사이트명 -->
+      <p class="footer-text">© 2026 meow. All rights reserved.</p>
+      <p class="footer-text">
+        본 도구는 입력된 데이터를 기반으로 결과 HTML을 생성합니다. 실제 적용 전 반드시 결과를 검토해주세요.
+      </p>
+      <p class="footer-text">License: MIT</p>
     </div>
-  </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script>
@@ -624,7 +1016,7 @@
       const dataHeaderCols = dataMap.grid[0] ? dataMap.grid[0].length : 0;
 
       const lines = [];
-      lines.push(`<span class="pill pill-blue">기본 비교</span>`);
+      lines.push(`<span class="ok">기본 비교</span>`);
       lines.push(`- 기존 데이터 행 수: ${sourceDataRowCount}`);
       lines.push(`- 새 데이터 행 수: ${dataDataRowCount}`);
       if (dataDataRowCount > sourceDataRowCount) lines.push(`<span class="warn">- 행 증가 감지: ${dataDataRowCount - sourceDataRowCount}개 행이 추가됩니다.</span>`);
@@ -635,12 +1027,12 @@
       if (sourceHeaderCols !== dataHeaderCols) lines.push(`<span class="warn">- 헤더 열 수 변경 감지</span>`);
       else lines.push(`<span class="ok">- 헤더 열 수 동일</span>`);
       lines.push(``);
-      lines.push(`<span class="pill pill-yellow">병합 구조 비교</span>`);
+      lines.push(`<span class="ok">병합 구조 비교</span>`);
       if (spanMessages.length === 0) lines.push(`<span class="ok">- rowspan / colspan 구조 변경 없음</span>`);
       else spanMessages.forEach(msg => lines.push(`<span class="warn">- ${msg}</span>`));
       if (detectSummaryRow(sourceTable)) {
         lines.push(``);
-        lines.push(`<span class="pill pill-blue">합계 행</span>`);
+        lines.push(`<span class="ok">합계 행</span>`);
         lines.push(`- 기존 테이블의 마지막 합계 행을 유지합니다.`);
         lines.push(`- 합계 행의 2번째 셀은 새 데이터 기준으로 자동 합산합니다.`);
       }
