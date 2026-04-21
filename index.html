@@ -419,7 +419,51 @@
       color: #6b7280;
       margin-top: 4px;
     }
+.btn-primary {
+  background: #2563eb;
+  color: #fff;
+}
 
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: #5c6672;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+}
+
+.btn-light {
+  background: #eef3f8;
+  color: #1f2937;
+  border: 1px solid #cfd6df;
+}
+
+.btn-light:hover {
+  background: #e2e8f0;
+}
+
+.btn-success {
+  background: #16a34a;
+  color: #fff;
+}
+
+.btn-success:hover {
+  background: #15803d;
+}
+
+.btn-warning {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.btn-warning:hover {
+  background: #d97706;
+}
     @media (max-width: 1100px) {
       .grid-2,
       .setting-grid {
@@ -515,11 +559,11 @@
           </div>
 
           <div class="button-row">
-            <button id="runBtn" type="button">결과 생성</button>
+            <button id="runBtn" type="button" class="btn-primary">결과 생성</button>
             <button id="toggleStatusBtn" type="button" class="btn-light">분석 결과 보기</button>
             <button id="sampleBtn" type="button" class="btn-secondary">샘플 넣기</button>
-            <button id="copyBtn" type="button" class="btn-light">결과 HTML 복사</button>
-            <button id="clearBtn" type="button" class="btn-light">전체 비우기</button>
+            <button id="copyBtn" type="button" class="btn-success">결과 HTML 복사</button>
+            <button id="clearBtn" type="button" class="btn-warning">전체 비우기</button>
           </div>
 
           <div id="status" class="status-box hidden" aria-live="polite">
