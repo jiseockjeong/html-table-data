@@ -4,67 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- [수정필수] 사이트 제목 -->
   <title>HTML TABLE 데이터 변환기 | 기존 table 스타일 유지 무료 도구</title>
 
-  <!-- [수정필수] 사이트 설명 -->
   <meta
     name="description"
     content="엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 도구입니다. rowspan, colspan 감지와 구조 반영까지 지원합니다."
   />
-
-  <!-- [선택수정] 검색 키워드 -->
   <meta
     name="keywords"
     content="엑셀 html 변환, html table 변환기, table 태그 생성, rowspan colspan 변환, 엑셀 표 html, 기존 테이블 스타일 유지, html 테이블 생성기"
   />
-
   <meta name="robots" content="index, follow" />
-
-  <!-- [수정필수] 작성자명 -->
   <meta name="author" content="meow" />
-
-  <!-- [수정필수] 실제 배포 주소 -->
   <link rel="canonical" href="https://html-table-data.vercel.app/" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="HTML TABLE 데이터 변환기 | 기존 table 스타일 유지 무료 도구" />
   <meta
     property="og:description"
     content="엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 도구입니다."
   />
-  <!-- [수정필수] 실제 배포 주소 -->
   <meta property="og:url" content="https://html-table-data.vercel.app/" />
-  <!-- [수정필수] 공유 이미지 경로 -->
   <meta property="og:image" content="https://html-table-data.vercel.app/ico_fav.ico" />
   <meta property="og:locale" content="ko_KR" />
-  <!-- [수정필수] 사이트명 -->
   <meta property="og:site_name" content="HTML TABLE 데이터 변환기" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="HTML TABLE 데이터 변환기 | 기존 table 스타일 유지 무료 도구" />
   <meta
     name="twitter:description"
     content="엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 도구입니다."
   />
-  <!-- [수정필수] 공유 이미지 경로 -->
   <meta name="twitter:image" content="https://html-table-data.vercel.app/ico_fav.ico" />
 
-  <!-- [선택수정] Search Console 인증 후 값 넣기 -->
-  <!-- <meta name="google-site-verification" content="여기에_인증코드" /> -->
+  <link rel="icon" href="./ico_fav.ico" type="image/x-icon" />
 
-  <!-- [수정필수] 파비콘 경로 -->
-  <link rel="icon" href="./ico_fav.ico" type="image/png" />
-
-  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "HTML TABLE 데이터 변환기",
-    "url": "https://your-site.vercel.app/",
+    "url": "https://html-table-data.vercel.app/",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
     "description": "엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 웹 도구",
@@ -75,9 +55,6 @@
     }
   }
   </script>
-</head>
-<body>
-  <a href="#main-content" class="skip-link">본문 바로가기</a>
 
   <style>
     * { box-sizing: border-box; }
@@ -182,12 +159,6 @@
       gap: 18px;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 18px;
-    }
-
     .panel-title {
       margin: 0 0 10px;
       font-size: 20px;
@@ -222,7 +193,8 @@
 
     textarea,
     select,
-    input[type="file"] {
+    input[type="file"],
+    input[type="text"] {
       width: 100%;
       border: 1px solid #cfd6df;
       border-radius: 12px;
@@ -294,7 +266,7 @@
     }
 
     .hidden {
-      display: none;
+      display: none !important;
     }
 
     .status-box {
@@ -306,6 +278,8 @@
       font-size: 14px;
       line-height: 1.7;
       white-space: pre-wrap;
+      max-height: 260px;
+      overflow: auto;
     }
 
     .status-box .ok {
@@ -341,7 +315,17 @@
       padding: 12px;
       background: #fafbfd;
     }
-
+    .preview-stage table{
+      max-width: 100%;
+      width: 100% !important;
+      border-top: 1px solid #000;
+      border-left: 1px solid #000;
+      border-collapse: collapse;
+    }
+    .preview-stage table :is(th, td){
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
+    }
     .output-textarea {
       min-height: 420px;
     }
@@ -402,9 +386,43 @@
       line-height: 1.7;
     }
 
+    .setting-box {
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid #dde3ea;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .setting-box h3 {
+      margin: 0 0 12px;
+      font-size: 17px;
+    }
+
+    .setting-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .setting-item label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .setting-item small {
+      display: block;
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
     @media (max-width: 1100px) {
       .grid-2,
-      .grid-3 {
+      .setting-grid {
         grid-template-columns: 1fr;
       }
 
@@ -413,13 +431,13 @@
       }
     }
   </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">본문 바로가기</a>
 
   <header class="site-header">
     <div class="container">
-      <!-- [선택수정] 사이트 메인 제목 -->
       <h1 class="site-title">HTML TABLE 데이터 변환기</h1>
-
-      <!-- [선택수정] 사이트 소개 문구 -->
       <p class="site-desc">
         엑셀 표 또는 HTML 테이블을 기존 table 스타일을 유지한 채 반영할 수 있는 무료 웹 도구입니다.
         데이터 테이블의 텍스트와 병합 구조만 읽고, 기존 테이블의 정렬, 스타일, 내부 p/span 구조는 최대한 유지합니다.
@@ -498,12 +516,13 @@
 
           <div class="button-row">
             <button id="runBtn" type="button">결과 생성</button>
+            <button id="toggleStatusBtn" type="button" class="btn-light">분석 결과 보기</button>
             <button id="sampleBtn" type="button" class="btn-secondary">샘플 넣기</button>
             <button id="copyBtn" type="button" class="btn-light">결과 HTML 복사</button>
             <button id="clearBtn" type="button" class="btn-light">전체 비우기</button>
           </div>
 
-          <div id="status" class="status-box" aria-live="polite">
+          <div id="status" class="status-box hidden" aria-live="polite">
             분석 결과가 여기에 표시됩니다.
           </div>
         </div>
@@ -512,23 +531,28 @@
 
     <section class="layout-section" aria-labelledby="preview-title">
       <div class="container">
-        <h2 id="preview-title" class="panel-title" style="margin-bottom:14px;">미리보기</h2>
+        <div class="content-card preview-card">
+          <h2 id="preview-title" class="panel-title">결과 테이블 미리보기</h2>
 
-        <div class="grid-2">
-          <div class="content-card preview-card">
-            <h3 class="preview-head">기존 테이블 미리보기</h3>
-            <div id="sourcePreview" class="preview-stage" aria-label="기존 테이블 미리보기 영역"></div>
+          <div class="setting-box">
+            <h3>미리보기 크기 설정</h3>
+
+            <div id="dynamicColumnSettings" class="setting-grid"></div>
+
+            <div class="setting-grid">
+              <div class="setting-item">
+                <label for="rowHeight">행 높이</label>
+                <input type="text" id="rowHeight" placeholder="예: 60px 또는 auto">
+                <small>px, %, auto 가능</small>
+              </div>
+            </div>
+
+            <div class="button-row" style="margin-top:0;">
+              <button id="applySizeBtn" type="button" class="btn-secondary">크기 적용</button>
+            </div>
           </div>
 
-          <div class="content-card preview-card">
-            <h3 class="preview-head">데이터 테이블 미리보기</h3>
-            <div id="dataPreview" class="preview-stage" aria-label="데이터 테이블 미리보기 영역"></div>
-          </div>
-
-          <div class="content-card preview-card">
-            <h3 class="preview-head">결과 테이블 미리보기</h3>
-            <div id="resultPreview" class="preview-stage" aria-label="결과 테이블 미리보기 영역"></div>
-          </div>
+          <div id="resultPreview" class="preview-stage" aria-label="결과 테이블 미리보기 영역"></div>
         </div>
       </div>
     </section>
@@ -577,6 +601,8 @@
             <li>rowspan, colspan 구조 감지 및 반영</li>
             <li>행 수 증가 및 열 구조 차이 확인</li>
             <li>기존 p, span 래퍼 구조 최대한 유지</li>
+            <li>caption 자동 생성</li>
+            <li>열 개수에 맞춘 동적 너비 설정</li>
           </ul>
         </div>
       </div>
@@ -622,6 +648,11 @@
             <h3>엑셀 서식까지 그대로 복사되나요?</h3>
             <p>아니요. 엑셀의 색상, 폰트, 테두리 같은 서식은 그대로 복사하지 않고 텍스트와 병합 구조 위주로 반영합니다.</p>
           </div>
+
+          <div class="faq-item">
+            <h3>caption은 어떻게 만들어지나요?</h3>
+            <p>첫 번째 tr의 th 텍스트만 추출해 “A, B, C로 구성된 표” 형식으로 자동 생성합니다.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -659,7 +690,6 @@
 
   <footer class="site-footer">
     <div class="container">
-      <!-- [수정필수] 이름 또는 사이트명 -->
       <p class="footer-text">© 2026 meow. All rights reserved.</p>
       <p class="footer-text">
         본 도구는 입력된 데이터를 기반으로 결과 HTML을 생성합니다. 실제 적용 전 반드시 결과를 검토해주세요.
@@ -675,21 +705,24 @@
     const excelPreviewHtmlEl = document.getElementById("excelPreviewHtml");
     const resultHtmlEl = document.getElementById("resultHtml");
     const statusEl = document.getElementById("status");
-    const sourcePreviewEl = document.getElementById("sourcePreview");
-    const dataPreviewEl = document.getElementById("dataPreview");
     const resultPreviewEl = document.getElementById("resultPreview");
     const runBtn = document.getElementById("runBtn");
     const sampleBtn = document.getElementById("sampleBtn");
     const copyBtn = document.getElementById("copyBtn");
     const clearBtn = document.getElementById("clearBtn");
+    const toggleStatusBtn = document.getElementById("toggleStatusBtn");
+    const applySizeBtn = document.getElementById("applySizeBtn");
+    const dynamicColumnSettingsEl = document.getElementById("dynamicColumnSettings");
     const inputModeEls = [...document.querySelectorAll('input[name="inputMode"]')];
     const htmlInputSection = document.getElementById("htmlInputSection");
     const excelInputSection = document.getElementById("excelInputSection");
     const excelFileEl = document.getElementById("excelFile");
     const sheetSelectEl = document.getElementById("sheetSelect");
     const convertExcelBtn = document.getElementById("convertExcelBtn");
+    const rowHeightEl = document.getElementById("rowHeight");
 
     let workbookCache = null;
+    let currentResultTable = null;
 
     function currentMode() {
       return inputModeEls.find(el => el.checked)?.value || "html";
@@ -732,6 +765,7 @@
 
     function clearCellContentKeepStructure(cell) {
       const clone = cell.cloneNode(true);
+
       function clearDeep(node) {
         [...node.childNodes].forEach(child => {
           if (child.nodeType === Node.TEXT_NODE) {
@@ -741,6 +775,7 @@
           }
         });
       }
+
       clearDeep(clone);
       return clone;
     }
@@ -755,9 +790,44 @@
       const cellClone = clearCellContentKeepStructure(templateCell);
       const text = newText == null ? "" : String(newText);
       const target = findPreferredTextTarget(cellClone);
+
       if (target === cellClone) cellClone.textContent = text;
       else target.textContent = text;
+
       return cellClone;
+    }
+
+    function getVisualColumnCount(row) {
+      if (!row) return 0;
+      return [...row.children].reduce((sum, cell) => {
+        return sum + parseInt(cell.getAttribute("colspan") || "1", 10);
+      }, 0);
+    }
+
+    function buildCaptionFromHeaderRow(table) {
+      const firstRow = table.querySelector("tr");
+      if (!firstRow) return "";
+
+      const headerTexts = [...firstRow.children]
+        .filter(cell => cell.tagName.toLowerCase() === "th")
+        .map(cell => getCellText(cell))
+        .filter(Boolean);
+
+      if (headerTexts.length === 0) return "";
+
+      return `${headerTexts.join(", ")}로 구성된 표`;
+    }
+
+    function ensureCaption(table) {
+      const captionText = buildCaptionFromHeaderRow(table);
+      if (!captionText) return;
+
+      let caption = table.querySelector("caption");
+      if (!caption) {
+        caption = document.createElement("caption");
+        table.insertBefore(caption, table.firstChild);
+      }
+      caption.textContent = captionText;
     }
 
     function buildGridMap(table) {
@@ -800,6 +870,7 @@
               };
             }
           }
+
           c += colspan;
         });
       });
@@ -811,13 +882,16 @@
     function detectSummaryRow(table) {
       const rows = [...table.querySelectorAll("tr")];
       if (rows.length === 0) return null;
+
       const lastRow = rows[rows.length - 1];
       const firstCell = lastRow.children[0];
       if (!firstCell) return null;
+
       const text = getCellText(firstCell);
       if (/합계|총계|계$/i.test(text)) {
         return { row: lastRow, index: rows.length - 1, label: text };
       }
+
       return null;
     }
 
@@ -826,6 +900,7 @@
       const summaryInfo = detectSummaryRow(sourceTable);
       const summaryIndex = summaryInfo ? summaryInfo.index : -1;
       const headerRow = rows[0] || null;
+
       let firstDataRow = null;
       for (let i = 1; i < rows.length; i++) {
         if (i !== summaryIndex) {
@@ -833,6 +908,7 @@
           break;
         }
       }
+
       return { rows, headerRow, firstDataRow, summaryInfo };
     }
 
@@ -840,14 +916,17 @@
       if (!row) return [];
       const cells = [...row.children];
       const result = [];
+
       cells.forEach(cell => {
         const colspan = parseInt(cell.getAttribute("colspan") || "1", 10);
         for (let i = 0; i < colspan; i++) result.push(cell);
       });
+
       if (expectedCount && result.length < expectedCount && cells.length > 0) {
         const last = cells[cells.length - 1];
         while (result.length < expectedCount) result.push(last);
       }
+
       return result;
     }
 
@@ -857,10 +936,13 @@
         : document.createElement(fallbackTag || "td");
 
       if (!templateCell) baseCell.textContent = text || "";
+
       if (rowspan > 1) baseCell.setAttribute("rowspan", rowspan);
       else baseCell.removeAttribute("rowspan");
+
       if (colspan > 1) baseCell.setAttribute("colspan", colspan);
       else baseCell.removeAttribute("colspan");
+
       return baseCell;
     }
 
@@ -878,34 +960,41 @@
       keys.forEach(k => {
         const s = sourceDict.get(k);
         const d = dataDict.get(k);
+
         if (!s && d) {
           if (d.rowspan > 1 || d.colspan > 1) {
             messages.push(`새 데이터 테이블 ${d.row + 1}행 ${d.col + 1}열에 병합 셀이 새로 추가되었습니다. (rowspan=${d.rowspan}, colspan=${d.colspan})`);
           }
           return;
         }
+
         if (s && !d) {
           if (s.rowspan > 1 || s.colspan > 1) {
             messages.push(`기존 테이블 ${s.row + 1}행 ${s.col + 1}열의 병합 구조가 사라졌습니다. (기존 rowspan=${s.rowspan}, colspan=${s.colspan})`);
           }
           return;
         }
+
         if (s && d && (s.rowspan !== d.rowspan || s.colspan !== d.colspan)) {
           messages.push(`${d.row + 1}행 ${d.col + 1}열 병합 구조 변경: 기존(rowspan=${s.rowspan}, colspan=${s.colspan}) → 새 데이터(rowspan=${d.rowspan}, colspan=${d.colspan})`);
         }
       });
+
       return messages;
     }
 
     function computeSecondColumnSum(dataBodyRows) {
       let total = 0;
+
       dataBodyRows.forEach(row => {
         const cells = [...row.children];
         const second = cells[1];
         if (!second) return;
+
         const num = parseFloat(getCellText(second).replace(/,/g, ""));
         if (!Number.isNaN(num)) total += num;
       });
+
       return total;
     }
 
@@ -913,6 +1002,7 @@
       const sourceTemplate = sourceTable.cloneNode(true);
       const sourceRowsInfo = getTemplateRows(sourceTemplate);
       const dataRows = [...dataTable.querySelectorAll("tr")];
+
       if (dataRows.length === 0) throw new Error("데이터 테이블에 tr이 없습니다.");
 
       const resultTable = sourceTemplate.cloneNode(false);
@@ -938,10 +1028,20 @@
         const dataText = getCellText(dataCell);
         const rowspan = parseInt(dataCell.getAttribute("rowspan") || "1", 10);
         const colspan = parseInt(dataCell.getAttribute("colspan") || "1", 10);
-        const templateCell = headerTemplateCells[visualColIndex]
-          || sourceHeaderCells[Math.min(visualColIndex, sourceHeaderCells.length - 1)]
-          || null;
-        const newCell = makeCellFromTemplate({ templateCell, fallbackTag: "th", text: dataText, rowspan, colspan });
+
+        const templateCell =
+          headerTemplateCells[visualColIndex] ||
+          sourceHeaderCells[Math.min(visualColIndex, sourceHeaderCells.length - 1)] ||
+          null;
+
+        const newCell = makeCellFromTemplate({
+          templateCell,
+          fallbackTag: "th",
+          text: dataText,
+          rowspan,
+          colspan
+        });
+
         if (newCell.tagName.toLowerCase() !== "th") {
           const th = document.createElement("th");
           cloneAttributes(newCell, th);
@@ -965,7 +1065,9 @@
           const dataTag = dataCell.tagName.toLowerCase();
           const rowspan = parseInt(dataCell.getAttribute("rowspan") || "1", 10);
           const colspan = parseInt(dataCell.getAttribute("colspan") || "1", 10);
+
           const templateCell = bodyTemplateCells[visualColCursor] || bodyTemplateCells[bodyTemplateCells.length - 1] || null;
+
           const newCell = makeCellFromTemplate({
             templateCell,
             fallbackTag: dataTag === "th" ? "th" : "td",
@@ -984,22 +1086,27 @@
           } else {
             newTr.appendChild(newCell);
           }
+
           visualColCursor += colspan;
         });
+
         resultTbody.appendChild(newTr);
       });
 
       if (summaryInfo) {
         const summaryRow = summaryInfo.row.cloneNode(true);
         const summaryCells = [...summaryRow.children];
+
         if (summaryCells.length > 1) {
           const numericSum = computeSecondColumnSum(dataBodyRows);
           const targetCell = summaryCells[1];
           const replaced = setCellTextPreserveWrapper(targetCell, String(numericSum));
           targetCell.replaceWith(replaced);
         }
+
         resultTbody.appendChild(summaryRow);
       }
+
       return resultTable;
     }
 
@@ -1007,11 +1114,14 @@
       const sourceRows = [...sourceTable.querySelectorAll("tr")];
       const dataRows = [...dataTable.querySelectorAll("tr")];
       const sourceSummary = detectSummaryRow(sourceTable);
+
       const sourceDataRowCount = Math.max(sourceRows.length - 1 - (sourceSummary ? 1 : 0), 0);
       const dataDataRowCount = Math.max(dataRows.length - 1, 0);
+
       const sourceMap = buildGridMap(sourceTable);
       const dataMap = buildGridMap(dataTable);
       const spanMessages = compareSpanChanges(sourceTable, dataTable);
+
       const sourceHeaderCols = sourceMap.grid[0] ? sourceMap.grid[0].length : 0;
       const dataHeaderCols = dataMap.grid[0] ? dataMap.grid[0].length : 0;
 
@@ -1019,23 +1129,40 @@
       lines.push(`<span class="ok">기본 비교</span>`);
       lines.push(`- 기존 데이터 행 수: ${sourceDataRowCount}`);
       lines.push(`- 새 데이터 행 수: ${dataDataRowCount}`);
-      if (dataDataRowCount > sourceDataRowCount) lines.push(`<span class="warn">- 행 증가 감지: ${dataDataRowCount - sourceDataRowCount}개 행이 추가됩니다.</span>`);
-      else if (dataDataRowCount < sourceDataRowCount) lines.push(`<span class="warn">- 행 감소 감지: ${sourceDataRowCount - dataDataRowCount}개 기존 데이터 행이 줄어듭니다.</span>`);
-      else lines.push(`<span class="ok">- 데이터 행 수 동일</span>`);
+
+      if (dataDataRowCount > sourceDataRowCount) {
+        lines.push(`<span class="warn">- 행 증가 감지: ${dataDataRowCount - sourceDataRowCount}개 행이 추가됩니다.</span>`);
+      } else if (dataDataRowCount < sourceDataRowCount) {
+        lines.push(`<span class="warn">- 행 감소 감지: ${sourceDataRowCount - dataDataRowCount}개 기존 데이터 행이 줄어듭니다.</span>`);
+      } else {
+        lines.push(`<span class="ok">- 데이터 행 수 동일</span>`);
+      }
+
       lines.push(`- 기존 헤더 열 수(시각 기준): ${sourceHeaderCols}`);
       lines.push(`- 새 데이터 헤더 열 수(시각 기준): ${dataHeaderCols}`);
-      if (sourceHeaderCols !== dataHeaderCols) lines.push(`<span class="warn">- 헤더 열 수 변경 감지</span>`);
-      else lines.push(`<span class="ok">- 헤더 열 수 동일</span>`);
+
+      if (sourceHeaderCols !== dataHeaderCols) {
+        lines.push(`<span class="warn">- 헤더 열 수 변경 감지</span>`);
+      } else {
+        lines.push(`<span class="ok">- 헤더 열 수 동일</span>`);
+      }
+
       lines.push(``);
       lines.push(`<span class="ok">병합 구조 비교</span>`);
-      if (spanMessages.length === 0) lines.push(`<span class="ok">- rowspan / colspan 구조 변경 없음</span>`);
-      else spanMessages.forEach(msg => lines.push(`<span class="warn">- ${msg}</span>`));
+
+      if (spanMessages.length === 0) {
+        lines.push(`<span class="ok">- rowspan / colspan 구조 변경 없음</span>`);
+      } else {
+        spanMessages.forEach(msg => lines.push(`<span class="warn">- ${msg}</span>`));
+      }
+
       if (detectSummaryRow(sourceTable)) {
         lines.push(``);
         lines.push(`<span class="ok">합계 행</span>`);
         lines.push(`- 기존 테이블의 마지막 합계 행을 유지합니다.`);
         lines.push(`- 합계 행의 2번째 셀은 새 데이터 기준으로 자동 합산합니다.`);
       }
+
       return lines.join("\n");
     }
 
@@ -1046,37 +1173,186 @@
       return dataHtmlEl.value.trim();
     }
 
+    function isValidSizeValue(value) {
+      if (!value) return false;
+      return /^(\*|auto|\d+(\.\d+)?(px|%))$/i.test(value.trim());
+    }
+
+    function renderDynamicColumnInputs(table) {
+      dynamicColumnSettingsEl.innerHTML = "";
+      if (!table) return;
+
+      const firstRow = table.querySelector("tr");
+      const colCount = getVisualColumnCount(firstRow);
+
+      for (let i = 0; i < colCount; i++) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "setting-item";
+        wrapper.innerHTML = `
+          <label for="colWidth_${i}">${i + 1}열 너비</label>
+          <input type="text" id="colWidth_${i}" data-col-index="${i}" placeholder="예: 120px 또는 20%">
+          <small>px, %, * 가능 / 비워두면 기존 값 유지</small>
+        `;
+        dynamicColumnSettingsEl.appendChild(wrapper);
+      }
+    }
+
+    function removeCellWidthStylesByColumn(table, targetColIndex) {
+      const rows = [...table.querySelectorAll("tr")];
+
+      rows.forEach(row => {
+        let visualColIndex = 0;
+        const cells = [...row.children];
+
+        cells.forEach(cell => {
+          const colspan = parseInt(cell.getAttribute("colspan") || "1", 10);
+          const start = visualColIndex;
+          const end = visualColIndex + colspan - 1;
+
+          const includesTarget = targetColIndex >= start && targetColIndex <= end;
+
+          if (includesTarget) {
+            cell.style.removeProperty("width");
+            cell.style.removeProperty("min-width");
+            cell.style.removeProperty("max-width");
+            cell.removeAttribute("width");
+
+            const styleText = cell.getAttribute("style");
+            if (styleText && styleText.trim() === "") {
+              cell.removeAttribute("style");
+            }
+          }
+
+          visualColIndex += colspan;
+        });
+      });
+    }
+
+    function applySizeSettings() {
+      if (!currentResultTable) {
+        alert("먼저 결과를 생성해주세요.");
+        return;
+      }
+
+      const colInputs = [...dynamicColumnSettingsEl.querySelectorAll('input[data-col-index]')];
+      const colValues = colInputs.map(input => input.value.trim());
+      const rowHeight = rowHeightEl.value.trim();
+
+      const invalidCol = colValues.find(v => v && !isValidSizeValue(v));
+      if (invalidCol) {
+        alert("열 너비는 px, %, *, 또는 비워두기만 가능합니다. 예: 120px, 20%, *");
+        return;
+      }
+
+      if (rowHeight && !isValidSizeValue(rowHeight)) {
+        alert("행 높이는 px, %, auto 또는 비워두기만 가능합니다.");
+        return;
+      }
+
+      let colgroup = currentResultTable.querySelector("colgroup");
+      if (!colgroup) {
+        colgroup = document.createElement("colgroup");
+        const firstRow = currentResultTable.querySelector("tr");
+        const count = getVisualColumnCount(firstRow);
+
+        for (let i = 0; i < count; i++) {
+          colgroup.appendChild(document.createElement("col"));
+        }
+
+        const caption = currentResultTable.querySelector("caption");
+        if (caption) {
+          currentResultTable.insertBefore(colgroup, caption.nextSibling);
+        } else {
+          currentResultTable.insertBefore(colgroup, currentResultTable.firstChild);
+        }
+      }
+
+      let cols = [...colgroup.querySelectorAll("col")];
+      if (cols.length < colValues.length) {
+        for (let i = cols.length; i < colValues.length; i++) {
+          colgroup.appendChild(document.createElement("col"));
+        }
+        cols = [...colgroup.querySelectorAll("col")];
+      }
+
+      const starIndexes = [];
+      colValues.forEach((value, index) => {
+        if (!cols[index]) return;
+
+        if (value) {
+          removeCellWidthStylesByColumn(currentResultTable, index);
+
+          if (value === "*") {
+            starIndexes.push(index);
+          } else {
+            cols[index].style.width = value;
+          }
+        }
+      });
+
+      if (starIndexes.length > 0) {
+        currentResultTable.style.tableLayout = "fixed";
+
+        const fixedSpecifiedCount = colValues.filter(v => v && v !== "*").length;
+        const remainingPercent = Math.max(0, 100 - fixedSpecifiedCount * 0); 
+        const starWidth = `${100 / starIndexes.length}%`;
+
+        starIndexes.forEach(index => {
+          if (cols[index]) {
+            cols[index].style.width = starWidth;
+          }
+        });
+      }
+
+      const rows = [...currentResultTable.querySelectorAll("tr")];
+      rows.forEach(row => {
+        if (rowHeight) row.style.height = rowHeight;
+      });
+
+      ensureCaption(currentResultTable);
+
+      resultPreviewEl.innerHTML = "";
+      resultPreviewEl.appendChild(currentResultTable.cloneNode(true));
+      resultHtmlEl.value = currentResultTable.outerHTML;
+    }
     function run() {
       try {
         const sourceHtml = sourceHtmlEl.value.trim();
         const dataHtml = getActiveDataHtml();
+
         if (!sourceHtml) throw new Error("기존 테이블 HTML을 입력해주세요.");
-        if (!dataHtml) throw new Error(currentMode() === "excel" ? "먼저 엑셀을 데이터 테이블로 변환해주세요." : "데이터 테이블 HTML을 입력해주세요.");
+        if (!dataHtml) {
+          throw new Error(
+            currentMode() === "excel"
+              ? "먼저 엑셀을 데이터 테이블로 변환해주세요."
+              : "데이터 테이블 HTML을 입력해주세요."
+          );
+        }
 
         const sourceTable = getFirstTable(sourceHtml);
         const dataTable = getFirstTable(dataHtml);
+
         if (!sourceTable) throw new Error("기존 HTML에서 table 태그를 찾지 못했습니다.");
         if (!dataTable) throw new Error("데이터 HTML에서 table 태그를 찾지 못했습니다.");
 
         const resultTable = buildResultTable(sourceTable, dataTable);
         const report = buildReport(sourceTable, dataTable);
 
-        sourcePreviewEl.innerHTML = "";
-        sourcePreviewEl.appendChild(sourceTable.cloneNode(true));
-
-        dataPreviewEl.innerHTML = "";
-        dataPreviewEl.appendChild(dataTable.cloneNode(true));
+        currentResultTable = resultTable.cloneNode(true);
+        ensureCaption(currentResultTable);
+        renderDynamicColumnInputs(currentResultTable);
 
         resultPreviewEl.innerHTML = "";
-        resultPreviewEl.appendChild(resultTable.cloneNode(true));
+        resultPreviewEl.appendChild(currentResultTable.cloneNode(true));
 
-        resultHtmlEl.value = resultTable.outerHTML;
+        resultHtmlEl.value = currentResultTable.outerHTML;
         statusEl.innerHTML = report;
       } catch (err) {
         statusEl.innerHTML = `<span class="error">오류:</span> ${err.message}`;
-        dataPreviewEl.innerHTML = "";
         resultPreviewEl.innerHTML = "";
         resultHtmlEl.value = "";
+        currentResultTable = null;
+        dynamicColumnSettingsEl.innerHTML = "";
       }
     }
 
@@ -1092,6 +1368,7 @@
     function buildHtmlTableFromSheet(workbook, sheetName) {
       const ws = workbook.Sheets[sheetName];
       if (!ws) throw new Error("선택한 시트를 찾지 못했습니다.");
+
       const range = XLSX.utils.decode_range(ws["!ref"] || "A1:A1");
       const merges = ws["!merges"] || [];
       const mergeStartMap = new Map();
@@ -1103,81 +1380,79 @@
           rowspan: m.e.r - m.s.r + 1,
           colspan: m.e.c - m.s.c + 1
         });
+
         for (let r = m.s.r; r <= m.e.r; r++) {
           for (let c = m.s.c; c <= m.e.c; c++) {
-            if (!(r === m.s.r && c === m.s.c)) coveredCells.add(`${r},${c}`);
+            if (!(r === m.s.r && c === m.s.c)) {
+              coveredCells.add(`${r},${c}`);
+            }
           }
         }
       });
 
-      let html = '<table><tbody>';
+      let html = "<table><tbody>";
       for (let r = range.s.r; r <= range.e.r; r++) {
-        html += '<tr>';
+        html += "<tr>";
+
         for (let c = range.s.c; c <= range.e.c; c++) {
           const posKey = `${r},${c}`;
           if (coveredCells.has(posKey)) continue;
+
           const addr = XLSX.utils.encode_cell({ r, c });
           const cell = ws[addr];
           const mergeInfo = mergeStartMap.get(posKey);
-          const tag = r === range.s.r ? 'th' : 'td';
-          const text = cell ? (cell.w ?? cell.v ?? '') : '';
-          const rowspanAttr = mergeInfo && mergeInfo.rowspan > 1 ? ` rowspan="${mergeInfo.rowspan}"` : '';
-          const colspanAttr = mergeInfo && mergeInfo.colspan > 1 ? ` colspan="${mergeInfo.colspan}"` : '';
+          const tag = r === range.s.r ? "th" : "td";
+          const text = cell ? (cell.w ?? cell.v ?? "") : "";
+
+          const rowspanAttr = mergeInfo && mergeInfo.rowspan > 1 ? ` rowspan="${mergeInfo.rowspan}"` : "";
+          const colspanAttr = mergeInfo && mergeInfo.colspan > 1 ? ` colspan="${mergeInfo.colspan}"` : "";
+
           html += `<${tag}${rowspanAttr}${colspanAttr}>${escapeHtml(text)}</${tag}>`;
         }
-        html += '</tr>';
+
+        html += "</tr>";
       }
-      html += '</tbody></table>';
+      html += "</tbody></table>";
       return html;
     }
 
     async function handleExcelFile(file) {
       const buffer = await file.arrayBuffer();
-      workbookCache = XLSX.read(buffer, { type: 'array' });
+      workbookCache = XLSX.read(buffer, { type: "array" });
       const sheetNames = workbookCache.SheetNames || [];
-      sheetSelectEl.innerHTML = '';
+
+      sheetSelectEl.innerHTML = "";
       sheetNames.forEach(name => {
-        const option = document.createElement('option');
+        const option = document.createElement("option");
         option.value = name;
         option.textContent = name;
         sheetSelectEl.appendChild(option);
       });
-      sheetSelectEl.classList.toggle('hidden', sheetNames.length <= 1);
+
+      sheetSelectEl.classList.toggle("hidden", sheetNames.length <= 1);
+
       if (sheetNames.length > 0) {
         const html = buildHtmlTableFromSheet(workbookCache, sheetNames[0]);
         excelPreviewHtmlEl.value = html;
-        renderDataPreviewFromHtml(html);
         statusEl.innerHTML = '<span class="ok">엑셀 파일을 불러왔습니다. 필요하면 시트를 바꾼 뒤 결과 생성을 눌러주세요.</span>';
-      }
-    }
-
-    function renderDataPreviewFromHtml(html) {
-      try {
-        const dataTable = getFirstTable(html);
-        dataPreviewEl.innerHTML = '';
-        if (dataTable) dataPreviewEl.appendChild(dataTable.cloneNode(true));
-      } catch (_) {
-        dataPreviewEl.innerHTML = '';
       }
     }
 
     function fillSample() {
       sourceHtmlEl.value = `<table style="width: 35.7963%;"><colgroup><col style="width: 19.6868%;"><col style="width: 14.5414%;"><col style="width: 14.5414%;"><col style="width: 17.4497%;"><col style="width: 33.557%;"></colgroup><tbody><tr><th>포상일자</th><th>수상인원</th><th>포상종류</th><th>훈격</th><th>내용</th></tr><tr><td style="text-align: center;" valign="middle"><p class="0"><span lang="EN-US">2025.01.13.</span></p></td><td style="text-align: center;" valign="middle"><p class="0"><span lang="EN-US">2</span></p></td><td style="text-align: center;" valign="middle"><p class="0">표창장</p></td><td style="text-align: center;" valign="middle"><p class="0">문체부장관</p></td><td style="text-align: center;" valign="middle"><p class="1">박물관미술관 발전 유공</p></td></tr><tr><td style="text-align: center;"><p class="0"><span lang="EN-US">합계</span></p></td><td style="text-align: center;">2</td><td style="text-align: center;"><p class="0">&nbsp;</p></td><td style="text-align: center;">&nbsp;</td><td style="text-align: center;">&nbsp;</td></tr></tbody></table>`;
+
       dataHtmlEl.value = `<table><tbody><tr><th>포상일자</th><th>수상인원</th><th>포상종류</th><th>훈격</th><th>내용</th></tr><tr><td>2024.02.23.</td><td>5</td><td>표창장</td><td>의정부시장</td><td>법정문화도시 의정부시 조성 유공</td></tr><tr><td>2024.02.29.</td><td>5</td><td>표창장</td><td>시흥시장</td><td>시흥시 지역문화활성화 유공</td></tr><tr><td>2024.02.29.</td><td>1</td><td>표창장</td><td>도지사</td><td>2023년 경기도 공공기관 우수 SNS 소통 유공</td></tr></tbody></table>`;
-      excelPreviewHtmlEl.value = '';
-      renderDataPreviewFromHtml(dataHtmlEl.value);
+
+      excelPreviewHtmlEl.value = "";
       run();
     }
 
-    inputModeEls.forEach(el => el.addEventListener('change', updateModeUI));
+    inputModeEls.forEach(el => el.addEventListener("change", updateModeUI));
 
-    dataHtmlEl.addEventListener('input', () => {
-      if (currentMode() === 'html') renderDataPreviewFromHtml(dataHtmlEl.value);
-    });
-
-    excelFileEl.addEventListener('change', async (e) => {
+    excelFileEl.addEventListener("change", async (e) => {
       const file = e.target.files?.[0];
       if (!file) return;
+
       try {
         await handleExcelFile(file);
       } catch (err) {
@@ -1185,61 +1460,70 @@
       }
     });
 
-    sheetSelectEl.addEventListener('change', () => {
+    sheetSelectEl.addEventListener("change", () => {
       if (!workbookCache) return;
       try {
         const html = buildHtmlTableFromSheet(workbookCache, sheetSelectEl.value);
         excelPreviewHtmlEl.value = html;
-        renderDataPreviewFromHtml(html);
       } catch (err) {
         statusEl.innerHTML = `<span class="error">오류:</span> ${err.message}`;
       }
     });
 
-    convertExcelBtn.addEventListener('click', () => {
+    convertExcelBtn.addEventListener("click", () => {
       if (!workbookCache) {
-        alert('먼저 엑셀 파일을 업로드해주세요.');
+        alert("먼저 엑셀 파일을 업로드해주세요.");
         return;
       }
+
       try {
         const html = buildHtmlTableFromSheet(workbookCache, sheetSelectEl.value || workbookCache.SheetNames[0]);
         excelPreviewHtmlEl.value = html;
-        renderDataPreviewFromHtml(html);
-        alert('엑셀 데이터를 데이터 테이블 HTML로 변환했습니다. 이제 결과 생성을 누르시면 됩니다.');
+        alert("엑셀 데이터를 데이터 테이블 HTML로 변환했습니다. 이제 결과 생성을 누르시면 됩니다.");
       } catch (err) {
         statusEl.innerHTML = `<span class="error">오류:</span> ${err.message}`;
       }
     });
 
-    runBtn.addEventListener('click', run);
-    sampleBtn.addEventListener('click', fillSample);
+    toggleStatusBtn.addEventListener("click", () => {
+      statusEl.classList.toggle("hidden");
+      toggleStatusBtn.textContent = statusEl.classList.contains("hidden")
+        ? "분석 결과 보기"
+        : "분석 결과 숨기기";
+    });
 
-    copyBtn.addEventListener('click', async () => {
+    applySizeBtn.addEventListener("click", applySizeSettings);
+    runBtn.addEventListener("click", run);
+    sampleBtn.addEventListener("click", fillSample);
+
+    copyBtn.addEventListener("click", async () => {
       if (!resultHtmlEl.value.trim()) {
-        alert('먼저 결과를 생성해주세요.');
+        alert("먼저 결과를 생성해주세요.");
         return;
       }
+
       try {
         await navigator.clipboard.writeText(resultHtmlEl.value);
-        alert('결과 HTML이 복사되었습니다.');
+        alert("결과 HTML이 복사되었습니다.");
       } catch {
-        alert('복사에 실패했습니다. 결과 HTML을 직접 선택해서 복사해주세요.');
+        alert("복사에 실패했습니다. 결과 HTML을 직접 선택해서 복사해주세요.");
       }
     });
 
-    clearBtn.addEventListener('click', () => {
-      sourceHtmlEl.value = '';
-      dataHtmlEl.value = '';
-      excelPreviewHtmlEl.value = '';
-      resultHtmlEl.value = '';
-      excelFileEl.value = '';
-      sheetSelectEl.innerHTML = '';
-      sheetSelectEl.classList.add('hidden');
+    clearBtn.addEventListener("click", () => {
+      sourceHtmlEl.value = "";
+      dataHtmlEl.value = "";
+      excelPreviewHtmlEl.value = "";
+      resultHtmlEl.value = "";
+      excelFileEl.value = "";
+      sheetSelectEl.innerHTML = "";
+      sheetSelectEl.classList.add("hidden");
       workbookCache = null;
-      sourcePreviewEl.innerHTML = '';
-      dataPreviewEl.innerHTML = '';
-      resultPreviewEl.innerHTML = '';
-      statusEl.textContent = '분석 결과가 여기에 표시됩니다.';
+      resultPreviewEl.innerHTML = "";
+      statusEl.textContent = "분석 결과가 여기에 표시됩니다.";
+      currentResultTable = null;
+      dynamicColumnSettingsEl.innerHTML = "";
+      rowHeightEl.value = "";
     });
 
     updateModeUI();
