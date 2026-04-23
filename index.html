@@ -315,17 +315,20 @@
       padding: 12px;
       background: #fafbfd;
     }
-    .preview-stage table{
+
+    .preview-stage table {
       max-width: 100%;
       width: 100% !important;
       border-top: 1px solid #000;
       border-left: 1px solid #000;
       border-collapse: collapse;
     }
-    .preview-stage table :is(th, td){
+
+    .preview-stage table :is(th, td) {
       border-right: 1px solid #000;
       border-bottom: 1px solid #000;
     }
+
     .output-textarea {
       min-height: 420px;
     }
@@ -419,51 +422,53 @@
       color: #6b7280;
       margin-top: 4px;
     }
-.btn-primary {
-  background: #2563eb;
-  color: #fff;
-}
 
-.btn-primary:hover {
-  background: #1d4ed8;
-}
+    .btn-primary {
+      background: #2563eb;
+      color: #fff;
+    }
 
-.btn-secondary {
-  background: #5c6672;
-  color: #fff;
-}
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
 
-.btn-secondary:hover {
-  background: #4b5563;
-}
+    .btn-secondary {
+      background: #5c6672;
+      color: #fff;
+    }
 
-.btn-light {
-  background: #eef3f8;
-  color: #1f2937;
-  border: 1px solid #cfd6df;
-}
+    .btn-secondary:hover {
+      background: #4b5563;
+    }
 
-.btn-light:hover {
-  background: #e2e8f0;
-}
+    .btn-light {
+      background: #eef3f8;
+      color: #1f2937;
+      border: 1px solid #cfd6df;
+    }
 
-.btn-success {
-  background: #16a34a;
-  color: #fff;
-}
+    .btn-light:hover {
+      background: #e2e8f0;
+    }
 
-.btn-success:hover {
-  background: #15803d;
-}
+    .btn-success {
+      background: #16a34a;
+      color: #fff;
+    }
 
-.btn-warning {
-  background: #f59e0b;
-  color: #fff;
-}
+    .btn-success:hover {
+      background: #15803d;
+    }
 
-.btn-warning:hover {
-  background: #d97706;
-}
+    .btn-warning {
+      background: #f59e0b;
+      color: #fff;
+    }
+
+    .btn-warning:hover {
+      background: #d97706;
+    }
+
     @media (max-width: 1100px) {
       .grid-2,
       .setting-grid {
@@ -561,7 +566,6 @@
           <div class="button-row">
             <button id="runBtn" type="button" class="btn-primary">결과 생성</button>
             <button id="toggleStatusBtn" type="button" class="btn-light">분석 결과 보기</button>
-            <button id="sampleBtn" type="button" class="btn-secondary">샘플 넣기</button>
             <button id="copyBtn" type="button" class="btn-success">결과 HTML 복사</button>
             <button id="clearBtn" type="button" class="btn-warning">전체 비우기</button>
           </div>
@@ -593,6 +597,7 @@
 
             <div class="button-row" style="margin-top:0;">
               <button id="applySizeBtn" type="button" class="btn-secondary">크기 적용</button>
+              <button id="setAutoWidthBtn" type="button" class="btn-light">넓이 일정하게 설정</button>
             </div>
           </div>
 
@@ -751,11 +756,11 @@
     const statusEl = document.getElementById("status");
     const resultPreviewEl = document.getElementById("resultPreview");
     const runBtn = document.getElementById("runBtn");
-    const sampleBtn = document.getElementById("sampleBtn");
     const copyBtn = document.getElementById("copyBtn");
     const clearBtn = document.getElementById("clearBtn");
     const toggleStatusBtn = document.getElementById("toggleStatusBtn");
     const applySizeBtn = document.getElementById("applySizeBtn");
+    const setAutoWidthBtn = document.getElementById("setAutoWidthBtn");
     const dynamicColumnSettingsEl = document.getElementById("dynamicColumnSettings");
     const inputModeEls = [...document.querySelectorAll('input[name="inputMode"]')];
     const htmlInputSection = document.getElementById("htmlInputSection");
@@ -858,7 +863,6 @@
         .filter(Boolean);
 
       if (headerTexts.length === 0) return "";
-
       return `${headerTexts.join(", ")}로 구성된 표`;
     }
 
@@ -923,37 +927,11 @@
       return { grid, cellInfos, rowCount: rows.length, colCount: maxCols };
     }
 
-    function detectSummaryRow(table) {
-      const rows = [...table.querySelectorAll("tr")];
-      if (rows.length === 0) return null;
-
-      const lastRow = rows[rows.length - 1];
-      const firstCell = lastRow.children[0];
-      if (!firstCell) return null;
-
-      const text = getCellText(firstCell);
-      if (/합계|총계|계$/i.test(text)) {
-        return { row: lastRow, index: rows.length - 1, label: text };
-      }
-
-      return null;
-    }
-
     function getTemplateRows(sourceTable) {
       const rows = [...sourceTable.querySelectorAll("tr")];
-      const summaryInfo = detectSummaryRow(sourceTable);
-      const summaryIndex = summaryInfo ? summaryInfo.index : -1;
       const headerRow = rows[0] || null;
-
-      let firstDataRow = null;
-      for (let i = 1; i < rows.length; i++) {
-        if (i !== summaryIndex) {
-          firstDataRow = rows[i];
-          break;
-        }
-      }
-
-      return { rows, headerRow, firstDataRow, summaryInfo };
+      const firstDataRow = rows[1] || null;
+      return { rows, headerRow, firstDataRow };
     }
 
     function getColumnTemplateCells(row, expectedCount) {
@@ -1027,21 +1005,6 @@
       return messages;
     }
 
-    function computeSecondColumnSum(dataBodyRows) {
-      let total = 0;
-
-      dataBodyRows.forEach(row => {
-        const cells = [...row.children];
-        const second = cells[1];
-        if (!second) return;
-
-        const num = parseFloat(getCellText(second).replace(/,/g, ""));
-        if (!Number.isNaN(num)) total += num;
-      });
-
-      return total;
-    }
-
     function buildResultTable(sourceTable, dataTable) {
       const sourceTemplate = sourceTable.cloneNode(true);
       const sourceRowsInfo = getTemplateRows(sourceTemplate);
@@ -1060,7 +1023,6 @@
       const dataBodyRows = dataRows.slice(1);
       const sourceHeaderRow = sourceRowsInfo.headerRow;
       const sourceFirstDataRow = sourceRowsInfo.firstDataRow;
-      const summaryInfo = sourceRowsInfo.summaryInfo;
 
       const headerTemplateCells = getColumnTemplateCells(sourceHeaderRow, 0);
       const bodyTemplateCells = getColumnTemplateCells(sourceFirstDataRow, 0);
@@ -1137,29 +1099,14 @@
         resultTbody.appendChild(newTr);
       });
 
-      if (summaryInfo) {
-        const summaryRow = summaryInfo.row.cloneNode(true);
-        const summaryCells = [...summaryRow.children];
-
-        if (summaryCells.length > 1) {
-          const numericSum = computeSecondColumnSum(dataBodyRows);
-          const targetCell = summaryCells[1];
-          const replaced = setCellTextPreserveWrapper(targetCell, String(numericSum));
-          targetCell.replaceWith(replaced);
-        }
-
-        resultTbody.appendChild(summaryRow);
-      }
-
       return resultTable;
     }
 
     function buildReport(sourceTable, dataTable) {
       const sourceRows = [...sourceTable.querySelectorAll("tr")];
       const dataRows = [...dataTable.querySelectorAll("tr")];
-      const sourceSummary = detectSummaryRow(sourceTable);
 
-      const sourceDataRowCount = Math.max(sourceRows.length - 1 - (sourceSummary ? 1 : 0), 0);
+      const sourceDataRowCount = Math.max(sourceRows.length - 1, 0);
       const dataDataRowCount = Math.max(dataRows.length - 1, 0);
 
       const sourceMap = buildGridMap(sourceTable);
@@ -1198,13 +1145,6 @@
         lines.push(`<span class="ok">- rowspan / colspan 구조 변경 없음</span>`);
       } else {
         spanMessages.forEach(msg => lines.push(`<span class="warn">- ${msg}</span>`));
-      }
-
-      if (detectSummaryRow(sourceTable)) {
-        lines.push(``);
-        lines.push(`<span class="ok">합계 행</span>`);
-        lines.push(`- 기존 테이블의 마지막 합계 행을 유지합니다.`);
-        lines.push(`- 합계 행의 2번째 셀은 새 데이터 기준으로 자동 합산합니다.`);
       }
 
       return lines.join("\n");
@@ -1252,7 +1192,6 @@
           const colspan = parseInt(cell.getAttribute("colspan") || "1", 10);
           const start = visualColIndex;
           const end = visualColIndex + colspan - 1;
-
           const includesTarget = targetColIndex >= start && targetColIndex <= end;
 
           if (includesTarget) {
@@ -1270,6 +1209,14 @@
           visualColIndex += colspan;
         });
       });
+    }
+
+    function refreshResultOutputs() {
+      if (!currentResultTable) return;
+      ensureCaption(currentResultTable);
+      resultPreviewEl.innerHTML = "";
+      resultPreviewEl.appendChild(currentResultTable.cloneNode(true));
+      resultHtmlEl.value = currentResultTable.outerHTML;
     }
 
     function applySizeSettings() {
@@ -1320,6 +1267,7 @@
       }
 
       const starIndexes = [];
+
       colValues.forEach((value, index) => {
         if (!cols[index]) return;
 
@@ -1327,6 +1275,7 @@
           removeCellWidthStylesByColumn(currentResultTable, index);
 
           if (value === "*") {
+            cols[index].style.width = "";
             starIndexes.push(index);
           } else {
             cols[index].style.width = value;
@@ -1336,9 +1285,6 @@
 
       if (starIndexes.length > 0) {
         currentResultTable.style.tableLayout = "fixed";
-
-        const fixedSpecifiedCount = colValues.filter(v => v && v !== "*").length;
-        const remainingPercent = Math.max(0, 100 - fixedSpecifiedCount * 0); 
         const starWidth = `${100 / starIndexes.length}%`;
 
         starIndexes.forEach(index => {
@@ -1350,15 +1296,37 @@
 
       const rows = [...currentResultTable.querySelectorAll("tr")];
       rows.forEach(row => {
-        if (rowHeight) row.style.height = rowHeight;
+        if (rowHeight) {
+          row.style.height = rowHeight;
+        } else {
+          row.style.removeProperty("height");
+          if (!row.getAttribute("style") || row.getAttribute("style").trim() === "") {
+            row.removeAttribute("style");
+          }
+        }
       });
 
-      ensureCaption(currentResultTable);
-
-      resultPreviewEl.innerHTML = "";
-      resultPreviewEl.appendChild(currentResultTable.cloneNode(true));
-      resultHtmlEl.value = currentResultTable.outerHTML;
+      refreshResultOutputs();
     }
+
+    function setAllTdWidthAuto() {
+      if (!currentResultTable) {
+        alert("먼저 결과를 생성해주세요.");
+        return;
+      }
+
+      const tdEls = [...currentResultTable.querySelectorAll("td")];
+      tdEls.forEach(td => {
+        td.style.width = "auto";
+        td.style.minWidth = "auto";
+        td.style.maxWidth = "none";
+        td.removeAttribute("width");
+      });
+
+      refreshResultOutputs();
+      alert("전체 td 넓이를 auto로 설정했습니다.");
+    }
+
     function run() {
       try {
         const sourceHtml = sourceHtmlEl.value.trim();
@@ -1409,6 +1377,10 @@
         .replace(/'/g, "&#39;");
     }
 
+    function excelTextToHtml(text) {
+      return escapeHtml(text).replace(/\r\n|\r|\n/g, "<br>");
+    }
+
     function buildHtmlTableFromSheet(workbook, sheetName) {
       const ws = workbook.Sheets[sheetName];
       if (!ws) throw new Error("선택한 시트를 찾지 못했습니다.");
@@ -1451,7 +1423,7 @@
           const rowspanAttr = mergeInfo && mergeInfo.rowspan > 1 ? ` rowspan="${mergeInfo.rowspan}"` : "";
           const colspanAttr = mergeInfo && mergeInfo.colspan > 1 ? ` colspan="${mergeInfo.colspan}"` : "";
 
-          html += `<${tag}${rowspanAttr}${colspanAttr}>${escapeHtml(text)}</${tag}>`;
+          html += `<${tag}${rowspanAttr}${colspanAttr}>${excelTextToHtml(text)}</${tag}>`;
         }
 
         html += "</tr>";
@@ -1480,15 +1452,6 @@
         excelPreviewHtmlEl.value = html;
         statusEl.innerHTML = '<span class="ok">엑셀 파일을 불러왔습니다. 필요하면 시트를 바꾼 뒤 결과 생성을 눌러주세요.</span>';
       }
-    }
-
-    function fillSample() {
-      sourceHtmlEl.value = `<table style="width: 35.7963%;"><colgroup><col style="width: 19.6868%;"><col style="width: 14.5414%;"><col style="width: 14.5414%;"><col style="width: 17.4497%;"><col style="width: 33.557%;"></colgroup><tbody><tr><th>포상일자</th><th>수상인원</th><th>포상종류</th><th>훈격</th><th>내용</th></tr><tr><td style="text-align: center;" valign="middle"><p class="0"><span lang="EN-US">2025.01.13.</span></p></td><td style="text-align: center;" valign="middle"><p class="0"><span lang="EN-US">2</span></p></td><td style="text-align: center;" valign="middle"><p class="0">표창장</p></td><td style="text-align: center;" valign="middle"><p class="0">문체부장관</p></td><td style="text-align: center;" valign="middle"><p class="1">박물관미술관 발전 유공</p></td></tr><tr><td style="text-align: center;"><p class="0"><span lang="EN-US">합계</span></p></td><td style="text-align: center;">2</td><td style="text-align: center;"><p class="0">&nbsp;</p></td><td style="text-align: center;">&nbsp;</td><td style="text-align: center;">&nbsp;</td></tr></tbody></table>`;
-
-      dataHtmlEl.value = `<table><tbody><tr><th>포상일자</th><th>수상인원</th><th>포상종류</th><th>훈격</th><th>내용</th></tr><tr><td>2024.02.23.</td><td>5</td><td>표창장</td><td>의정부시장</td><td>법정문화도시 의정부시 조성 유공</td></tr><tr><td>2024.02.29.</td><td>5</td><td>표창장</td><td>시흥시장</td><td>시흥시 지역문화활성화 유공</td></tr><tr><td>2024.02.29.</td><td>1</td><td>표창장</td><td>도지사</td><td>2023년 경기도 공공기관 우수 SNS 소통 유공</td></tr></tbody></table>`;
-
-      excelPreviewHtmlEl.value = "";
-      run();
     }
 
     inputModeEls.forEach(el => el.addEventListener("change", updateModeUI));
@@ -1537,8 +1500,8 @@
     });
 
     applySizeBtn.addEventListener("click", applySizeSettings);
+    setAutoWidthBtn.addEventListener("click", setAllTdWidthAuto);
     runBtn.addEventListener("click", run);
-    sampleBtn.addEventListener("click", fillSample);
 
     copyBtn.addEventListener("click", async () => {
       if (!resultHtmlEl.value.trim()) {
